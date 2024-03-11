@@ -1,28 +1,17 @@
-import json
 import random
 from typing import Iterator
+
+from pydantic import BaseModel
 
 from src.card import Card
 
 
-class Deck:
-    def __init__(self, deck_data_path: str) -> None:
-        self.cards = []
-        self.build(deck_data_path)
+class Deck(BaseModel):
+    cards: list[Card]
 
     def __iter__(self) -> Iterator[Card]:
         """Return the deck as an iterator. This allows the deck to be used as a generator."""
         return self
-
-    def build(self, deck_data_path) -> None:
-        """Build the deck from a JSON file."""
-        try:
-            with open(deck_data_path) as f:
-                data = json.load(f)
-                for card_data in data:
-                    self.cards.append(Card(card_data["id"], card_data["name"]))
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Deck data file not found at: {deck_data_path}")
 
     def shuffle(self) -> None:
         """Shuffle the deck in place."""

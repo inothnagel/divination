@@ -1,36 +1,16 @@
-from dataclasses import dataclass
+from typing import Optional
 
-from src.card import Card
+from pydantic import BaseModel
+
 from src.deck import Deck
+from src.position import Position
 
 
-@dataclass
-class Position:
+class Spread(BaseModel):
     name: str
     description: str
-    card: Card | None
-
-    @staticmethod
-    def from_dict(data: dict) -> "Position":
-        return Position(name=data["name"], description=data["description"], card=None)
-
-
-@dataclass
-class Spread:
-    name: str
-    description: str
-    question: str | None
     positions: list[Position]
-
-    @staticmethod
-    def from_dict(data: dict) -> "Spread":
-        positions = [Position.from_dict(pos) for pos in data["positions"]]
-        return Spread(
-            name=data["name"],
-            description=data["description"],
-            question=None,
-            positions=positions,
-        )
+    question: Optional[str] = None
 
     def consume(self, deck: Deck) -> None:
         for position in self.positions:

@@ -1,9 +1,8 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 
-@dataclass
-class Card:
-    ident: str
+class Card(BaseModel):
+    id: str
     name: str
 
     def __str__(self) -> str:

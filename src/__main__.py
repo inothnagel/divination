@@ -1,21 +1,32 @@
-from src.deck import Deck
+import json
+
 import yaml
 
+from src.deck import Deck
 from src.spread import Spread
 
 
-def main() -> None:
+def load_deck() -> Deck:
+    deck_data_path = "../data/thoth.json"
+    with open(deck_data_path, "r") as file:
+        deck_data = json.load(file)
+    return Deck.parse_obj(deck_data)
 
-    # Assuming you have a YAML file named 'example.yml'
-    with open("../data/spreads/celtic-cross-spread.yml", "r") as file:
+
+def load_spread() -> Spread:
+    spread_data_path = "../data/spreads/celtic-cross-spread.yml"
+    with open(spread_data_path, "r") as file:
         data = yaml.safe_load(file)
+    return Spread.parse_obj(data)
 
-    spread = Spread.from_dict(data)
 
-    deck = Deck("../data/thoth.json")
+def main() -> None:
+    deck = load_deck()
     deck.shuffle()
 
+    spread = load_spread()
     spread.consume(deck)
+
     print(spread)
 
 
