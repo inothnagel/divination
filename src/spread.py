@@ -1,32 +1,55 @@
-from abc import ABC
+from dataclasses import dataclass
 
+from src.card import Card
 from src.deck import Deck
 
 
-class Spread(ABC):
-    def consume(self, deck: Deck) -> None:
-        """Consume cards from the deck and place them in the spread in order."""
-        pass
+@dataclass
+class Position:
+    name: str
+    description: str
+    card: Card | None
+
+    @staticmethod
+    def from_dict(data: dict) -> "Position":
+        return Position(name=data["name"], description=data["description"], card=None)
 
 
-class ThreeCardSpread(Spread):
-    """The classic spread of three cards: The past, present, and future."""
+@dataclass
+class Spread:
+    name: str
+    description: str
+    question: str | None
+    positions: list[Position]
 
-    def __init__(self) -> None:
-        super().__init__()
-        # todo use a position class
-        self.positions = {
-            "past": None,
-            "present": None,
-            "future": None,
-        }
+    @staticmethod
+    def from_dict(data: dict) -> "Spread":
+        positions = [Position.from_dict(pos) for pos in data["positions"]]
+        return Spread(
+            name=data["name"],
+            description=data["description"],
+            question=None,
+            positions=positions,
+        )
 
     def consume(self, deck: Deck) -> None:
         for position in self.positions:
             try:
-                self.positions[position] = next(deck)
+                position.card = next(deck)
             except StopIteration:
                 raise ValueError("Deck is empty")
 
     def __str__(self) -> str:
-        return f"Past: {self.positions['past']}, Present: {self.positions['present']}, Future: {self.positions['future']}"
+        position_str = ", ".join([f"{pos.name}: {pos.card}" for pos in self.positions])
+        output = """
+        Spread: {name}
+        Description: {description}
+        Question: {question}
+        Positions: {position_str}
+        """.format(
+            name=self.name,
+            description=self.description,
+            question=self.question,
+            position_str=position_str,
+        )
+        return output

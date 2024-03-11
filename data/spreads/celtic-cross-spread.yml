@@ -1,0 +1,11 @@
+name: "Celtic Cross Spread"
+description: "This is one of the most classic tarot spreads, offering a comprehensive reading."
+positions:
+  - name: "Present"
+    description: "Represents your current situation or the querent's current state of mind."
+  - name: "Challenge"
+    description: "The immediate challenge or problem facing the querent."
+  - name: "Past"
+    description: "The past and its influence on the present."
+  - name: "Future"
+    description: "The future and what it holds."
