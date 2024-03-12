@@ -3,7 +3,7 @@ from typing import Iterator
 
 from pydantic import BaseModel
 
-from src.card import Card
+from divination.src.card import Card
 
 
 class Deck(BaseModel):

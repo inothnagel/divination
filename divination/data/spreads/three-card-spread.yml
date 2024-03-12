@@ -1,0 +1,11 @@
+name: "Three Card Spread"
+description: "A simple and quick tarot spread for general insight, focusing on the basic time frames of past, present, and future."
+positions:
+  - name: "Past"
+    description: "Represents the past influences or events affecting the situation."
+  - name: "Present"
+    description: "Shows the current situation or the querent's state of mind."
+  - name: "Future"
+    description: "Predicts the future outcome based on the current path or direction."
+  - name: "Advice"
+    description: "Predicts the future outcome based on the current path or direction."
